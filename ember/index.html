@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Fantasy Football Prep</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+  <script type="text/x-handlebars">
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          {{link-to 'Fantasy Football Projections' 'index' classNames='navbar-brand'}}
+        </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li>{{link-to 'About' 'about'}}</li>
+            <li><a href='https://twitter.com/landonmarder'>@landonmarder</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    {{outlet}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="index">
+  {{link-to 'Get projections now!' 'players'}}
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="players">
+    {{outlet}}
+    <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name, Team</th>
+              <th>Position</th>
+              <th>Passing Completions</th>
+              <th>Passing Yards</th>
+              <th>Passing TDs</th>
+              <th>Passing INT</th>
+              <th>Rushing Attempts</th>
+              <th>Rushing Yards</th>
+              <th>Rushing TDs</th>
+              <th>Receiving Yards</th>
+              <th>Receiving Receptions</th>
+              <th>Receiving TDs</th>
+              <th>Fumbles</th>
+              <th>Total Points</th>
+            </tr>
+          </thead>
+          <tbody>
+          {{#each}}
+            <tr>
+              <td>{{id}}</td>
+              <td>{{link-to name 'players.show' this}}, {{team}}</td>
+              <td>{{position}}</td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name='players/show'>
+
+  <h2>{{name}}</h2>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="about">
+    <h2>About</h2>
+    <p>
+      I have scraped ESPN fantasy football projections to give you a better
+      user experience and more data to research for your fantasy football drafts.
+    </p>
+  </script>
+
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-1.1.2.js"></script>
+  <script src="js/libs/ember-1.5.1.js"></script>
+  <script src="js/libs/ember-data.js"></script>
+  <script src="js/app.js"></script>
+  <!-- to activate the test runner, add the "?test" query string parameter -->
+  <script src="tests/runner.js"></script>
+</body>
+</html>
