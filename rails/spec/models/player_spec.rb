@@ -9,4 +9,5 @@ describe Player do
 
   it { should have_valid(:team).when('Den') }
   it { should_not have_valid(:team).when(nil, '') }
+
 end
