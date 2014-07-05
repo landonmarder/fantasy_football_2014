@@ -132,6 +132,7 @@ DEPENDENCIES
   active_model_serializers
   capybara
   factory_girl_rails
+  nokogiri
   pg
   pry-rails
   rails (= 4.0.2)
