@@ -49,16 +49,16 @@ class Projection < ActiveRecord::Base
           projection = Projection.new(
               player: player,
               source: 'Yahoo',
-              passing_completions: row.children[8].text.gsub(',','').to_f,
-              passing_yards: row.children[9].text.gsub(',','').to_f,
-              passing_tds: row.children[10].text.gsub(',','').to_f,
-              interceptions: row.children[11].text.gsub(',','').to_f,
-              rushing_yards: row.children[12].text.gsub(',','').to_f,
-              rushing_tds: row.children[13].text.gsub(',','').to_f,
-              receiving_receptions: row.children[14].text.gsub(',','').to_f,
-              receiving_yards: row.children[15].text.gsub(',','').to_f,
-              receiving_tds: row.children[16].text.gsub(',','').to_f,
-              fumbles: row.children[19].text.gsub(',','').to_f,
+              passing_completions: convert_yahoo(row.children[8].text),
+              passing_yards: convert_yahoo(row.children[9].text),
+              passing_tds: convert_yahoo(row.children[10].text),
+              interceptions: convert_yahoo(row.children[11].text),
+              rushing_yards: convert_yahoo(row.children[12].text),
+              rushing_tds: convert_yahoo(row.children[13].text),
+              receiving_receptions: convert_yahoo(row.children[14].text),
+              receiving_yards: convert_yahoo(row.children[15].text),
+              receiving_tds: convert_yahoo(row.children[16].text),
+              fumbles: convert_yahoo(row.children[19].text),
             )
           projection.save
         end
@@ -68,19 +68,24 @@ class Projection < ActiveRecord::Base
 
   private
   def self.position_espn(string)
-    info = Projection.sanitize_position_team(string)
+    info = Projection.sanitize_position_team_espn(string)
     info[-2..-1]
   end
 
   def self.team_espn(string)
-    info = Projection.sanitize_position_team(string)
+    info = Projection.sanitize_position_team_espn(string)
     info[0..-4]
   end
-  def self.sanitize_position_team(string)
+
+  def self.sanitize_position_team_espn(string)
     if string[-1] == 'B' || string[-1] == 'E' || string[-1] == 'R'
       string[1..-1]
     else
       string[1..-4]
     end
+  end
+
+  def self.convert_yahoo(string)
+    string.gsub(',','').to_f
   end
 end
