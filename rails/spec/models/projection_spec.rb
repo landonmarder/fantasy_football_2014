@@ -3,6 +3,9 @@ require 'rails_helper'
 describe Projection do
   it { should belong_to(:player) }
 
+  it { should have_valid(:source).when('ESPN') }
+  it { should_not have_valid(:source).when(nil, '') }
+
   it 'should scrape ESPN for new projections' do
     # Making assumption these guys will be in the top 40, adjust if injuries!
     total_projections = Projection.all.length

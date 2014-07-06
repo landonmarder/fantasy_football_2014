@@ -1,5 +1,6 @@
 require 'open-uri'
 class Projection < ActiveRecord::Base
+  validates_presence_of :source
 
   belongs_to :player,
     inverse_of: :projections
@@ -16,6 +17,7 @@ class Projection < ActiveRecord::Base
       if player.save
         projection = Projection.new(
           player: player,
+          source: 'ESPN',
           passing_completions: row.children[2].text.split('/').first.to_i,
           passing_attempts: row.children[2].text.split('/').last.to_i,
           passing_yards: row.children[3].text.to_i,
