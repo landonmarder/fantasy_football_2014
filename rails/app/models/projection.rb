@@ -42,9 +42,9 @@ class Projection < ActiveRecord::Base
       name = row.children[1].css('.name').text
       if name.length > 0
         player = Player.find_or_initialize_by(name: name)
-        player.position = row.children[1].css('span').children[-3]
-        player.position = row.children[1].css('span').children[-3].text.split('-').last.delete(' ')
-        player.team = row.children[1].css('span').children[-3].text.split('-').first.delete(' ')
+        player.position = row.children[1].css('span').children[3].text.split('-').last.delete(' ')
+        player.team = row.children[1].css('span').children[3].text.split('-').first.delete(' ')
+
         if player.save
           projection = Projection.new(
               player: player,
