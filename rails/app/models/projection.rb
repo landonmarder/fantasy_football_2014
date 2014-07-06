@@ -10,25 +10,25 @@ class Projection < ActiveRecord::Base
     doc.css('.pncPlayerRow').each do |row|
       name = row.children[1].children.text.split(',').first
       player = Player.find_or_initialize_by(name: name)
-      player.position = Projection.position(row.children[1].text.split(',').last)
-      player.team = Projection.team(row.children[1].text.split(',').last)
+      player.position = Projection.position_espn(row.children[1].text.split(',').last)
+      player.team = Projection.team_espn(row.children[1].text.split(',').last)
       player.save
 
       if player.save
         projection = Projection.new(
           player: player,
           source: 'ESPN',
-          passing_completions: row.children[2].text.split('/').first.to_i,
-          passing_attempts: row.children[2].text.split('/').last.to_i,
-          passing_yards: row.children[3].text.to_i,
-          passing_tds: row.children[4].text.to_i,
-          interceptions: row.children[5].text.to_i,
-          rushing_attempts: row.children[6].text.to_i,
-          rushing_yards: row.children[7].text.to_i,
-          rushing_tds: row.children[8].text.to_i,
-          receiving_receptions: row.children[9].text.to_i,
-          receiving_yards: row.children[10].text.to_i,
-          receiving_tds: row.children[11].text.to_i
+          passing_completions: row.children[2].text.split('/').first.to_f,
+          passing_attempts: row.children[2].text.split('/').last.to_f,
+          passing_yards: row.children[3].text.to_f,
+          passing_tds: row.children[4].text.to_f,
+          interceptions: row.children[5].text.to_f,
+          rushing_attempts: row.children[6].text.to_f,
+          rushing_yards: row.children[7].text.to_f,
+          rushing_tds: row.children[8].text.to_f,
+          receiving_receptions: row.children[9].text.to_f,
+          receiving_yards: row.children[10].text.to_f,
+          receiving_tds: row.children[11].text.to_f
         )
 
         projection.save
@@ -36,13 +36,43 @@ class Projection < ActiveRecord::Base
     end
   end
 
+  def self.scrape_YAHOO(url)
+    doc = Nokogiri::HTML(open(url))
+    doc.css('tbody tr').each do |row|
+      name = row.children[1].css('.name').text
+      if name.length > 0
+        player = Player.find_or_initialize_by(name: name)
+        player.position = row.children[1].css('span').children[-3]
+        player.position = row.children[1].css('span').children[-3].text.split('-').last.delete(' ')
+        player.team = row.children[1].css('span').children[-3].text.split('-').first.delete(' ')
+        if player.save
+          projection = Projection.new(
+              player: player,
+              source: 'Yahoo',
+              passing_completions: row.children[8].text.gsub(',','').to_f,
+              passing_yards: row.children[9].text.gsub(',','').to_f,
+              passing_tds: row.children[10].text.gsub(',','').to_f,
+              interceptions: row.children[11].text.gsub(',','').to_f,
+              rushing_yards: row.children[12].text.gsub(',','').to_f,
+              rushing_tds: row.children[13].text.gsub(',','').to_f,
+              receiving_receptions: row.children[14].text.gsub(',','').to_f,
+              receiving_yards: row.children[15].text.gsub(',','').to_f,
+              receiving_tds: row.children[16].text.gsub(',','').to_f,
+              fumbles: row.children[19].text.gsub(',','').to_f,
+            )
+          projection.save
+        end
+      end
+    end
+  end
+
   private
-  def self.position(string)
+  def self.position_espn(string)
     info = Projection.sanitize_position_team(string)
     info[-2..-1]
   end
 
-  def self.team(string)
+  def self.team_espn(string)
     info = Projection.sanitize_position_team(string)
     info[0..-4]
   end
