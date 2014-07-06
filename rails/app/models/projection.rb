@@ -8,7 +8,10 @@ class Projection < ActiveRecord::Base
     doc = Nokogiri::HTML(open(url))
     doc.css('.pncPlayerRow').each do |row|
       name = row.children[1].children.text.split(',').first
-      binding.pry
+      player = Player.find_or_initialize_by(name: name)
+      player.position = row.children[1].text.split(',')[1].delete(' ')[0..2]
+      player.team = row.children[1].text.split(',')[1].delete(' ')[4..5]
+      player.save
     end
   end
 end

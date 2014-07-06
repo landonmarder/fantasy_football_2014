@@ -8,7 +8,9 @@ describe Projection do
     total_projections = Projection.all.length
     Projection.scrape_ESPN('http://games.espn.go.com/ffl/tools/projections?&startIndex=0')
 
+    expect(Player.all.length).to eq(40)
     expect(Projection.all.length).to eq(total_projections + 40)
     expect(Projection.all.first.player.name).to eq('Adrian Peterson')
+    expect(Projection.all.first.player.passing_completions).to eq(0)
   end
 end
