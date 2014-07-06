@@ -24,5 +24,6 @@ describe Projection do
     expect(peyton.position).to eq('QB')
     expect(peyton.projections.first.passing_yards).to eq(5210)
 
+    expect(Projection.all.length).to eq(total_projections + 40)
   end
 end
