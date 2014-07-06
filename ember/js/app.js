@@ -15,11 +15,28 @@ App.Router.map(function() {
 App.Player = DS.Model.extend({
   name: DS.attr('string'),
   team: DS.attr('string'),
-  position: DS.attr('string')
-})
+  position: DS.attr('string'),
+  projections: DS.hasMany('projection')
+});
+
+App.Projection = DS.Model.extend({
+  player: DS.belongsTo('player'),
+  passingCompletions: DS.attr('number'),
+  passingAttempts: DS.attr('number'),
+  passingYards: DS.attr('number'),
+  passingTds: DS.attr('number'),
+  interceptions: DS.attr('number'),
+  rushingAttempts: DS.attr('number'),
+  rushingYards: DS.attr('number'),
+  rushingTds: DS.attr('number'),
+  receivingYards: DS.attr('number'),
+  receivingReceptions: DS.attr('number'),
+  receivingTds: DS.attr('number'),
+  fumbles: DS.attr('number')
+});
 
 App.PlayersRoute = Ember.Route.extend({
   model: function() {
-    return this.store.findAll('player');
+    return this.store.findAll('player')
   }
 });
