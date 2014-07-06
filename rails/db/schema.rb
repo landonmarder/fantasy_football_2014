@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140706152552) do
+ActiveRecord::Schema.define(version: 20140706164518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,18 +26,18 @@ ActiveRecord::Schema.define(version: 20140706152552) do
 
   create_table "projections", force: true do |t|
     t.integer  "player_id",            null: false
-    t.integer  "passing_completions"
-    t.integer  "passing_attempts"
-    t.integer  "passing_yards"
-    t.integer  "passing_tds"
-    t.integer  "interceptions"
-    t.integer  "rushing_attempts"
-    t.integer  "rushing_yards"
-    t.integer  "rushing_tds"
-    t.integer  "receiving_yards"
-    t.integer  "receiving_receptions"
-    t.integer  "receiving_tds"
-    t.integer  "fumbles"
+    t.float    "passing_completions"
+    t.float    "passing_attempts"
+    t.float    "passing_yards"
+    t.float    "passing_tds"
+    t.float    "interceptions"
+    t.float    "rushing_attempts"
+    t.float    "rushing_yards"
+    t.float    "rushing_tds"
+    t.float    "receiving_yards"
+    t.float    "receiving_receptions"
+    t.float    "receiving_tds"
+    t.float    "fumbles"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "source",               null: false
