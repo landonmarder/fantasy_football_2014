@@ -9,8 +9,8 @@ class Projection < ActiveRecord::Base
     doc.css('.pncPlayerRow').each do |row|
       name = row.children[1].children.text.split(',').first
       player = Player.find_or_initialize_by(name: name)
-      player.position = row.children[1].text.split(',')[1].delete(' ')[0..2]
-      player.team = row.children[1].text.split(',')[1].delete(' ')[4..5]
+      player.position = Projection.position(row.children[1].text.split(',').last)
+      player.team = Projection.team(row.children[1].text.split(',').last)
       player.save
 
       projection = Projection.new(
@@ -29,6 +29,24 @@ class Projection < ActiveRecord::Base
       )
 
       projection.save
+    end
+  end
+
+  private
+  def self.position(string)
+    info = Projection.sanitize_position_team(string)
+    info[-2..-1]
+  end
+
+  def self.team(string)
+    info = Projection.sanitize_position_team(string)
+    info[0..-4]
+  end
+  def self.sanitize_position_team(string)
+    if string[-1] == 'B' || string[-1] == 'E' || string[-1] == 'R'
+      string[1..-1]
+    else
+      string[1..-4]
     end
   end
 end

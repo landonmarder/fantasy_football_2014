@@ -4,14 +4,25 @@ describe Projection do
   it { should belong_to(:player) }
 
   it 'should scrape ESPN for new projections' do
-    # Making assumption that AP will always be first ranked, will need to change if different :)
+    # Making assumption these guys will be in the top 40, adjust if injuries!
     total_projections = Projection.all.length
     Projection.scrape_ESPN('http://games.espn.go.com/ffl/tools/projections?&startIndex=0')
 
     expect(Player.all.length).to eq(40)
-    expect(Projection.all.length).to eq(total_projections + 40)
-    expect(Projection.all.first.player.name).to eq('Adrian Peterson')
-    expect(Projection.all.first.player.projections.first.passing_completions).to eq(0)
-    expect(Projection.all.first.player.projections.first.rushing_yards).to eq(1365)
+    ap = Player.find_by(name: 'Adrian Peterson')
+    expect(ap.team).to eq('Min')
+    expect(ap.position).to eq('RB')
+    expect(ap.projections.first.passing_completions).to eq(0)
+    expect(ap.projections.first.rushing_yards).to eq(1365)
+
+    dm = Player.find_by(name: 'Doug Martin')
+    expect(dm.team).to eq('TB')
+    expect(dm.position).to eq('RB')
+
+    peyton = Player.find_by(name: 'Peyton Manning')
+    expect(peyton.team).to eq('Den')
+    expect(peyton.position).to eq('QB')
+    expect(peyton.projections.first.passing_yards).to eq(5210)
+
   end
 end
