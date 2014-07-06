@@ -1,6 +1,6 @@
 desc 'scrape espn for latest fantasy projections'
 task :scrape_espn => :environment do
-  puts 'Starting to scrape ...'
+  puts 'Starting to scrape ESPN ...'
   Projection.scrape_ESPN("http://games.espn.go.com/ffl/tools/projections?&startIndex=0")
   puts 'First 40 done'
   Projection.scrape_ESPN("http://games.espn.go.com/ffl/tools/projections?&startIndex=40")
