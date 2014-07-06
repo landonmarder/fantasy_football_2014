@@ -1,5 +1,9 @@
 App = Ember.Application.create();
-App.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+App.ApplicationAdapter = DS.ActiveModelAdapter.extend({
+  namespace: 'api',
+  host: 'http://fantasy-football-aggregator.herokuapp.com'
+});
 
 App.Router.map(function() {
   this.route('about');
@@ -19,34 +23,3 @@ App.PlayersRoute = Ember.Route.extend({
     return this.store.findAll('player');
   }
 });
-
-App.Player.FIXTURES = [
-  {
-    id: 1,
-    name: 'Peyton Manning',
-    team: 'Den',
-    position: 'QB',
-    portrait: 'http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/1428.png&w=35&h=48&scale=crop&background=0xcccccc&transparent=false'
-  },
-  {
-    id: 2,
-    name: 'Matt Forte',
-    team: 'Chi',
-    position: 'RB',
-    portrait: 'http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/11278.png&w=35&h=48&scale=crop&background=0xcccccc&transparent=false'
-  },
-  {
-    id: 3,
-    name: 'Adrian Peterson',
-    team: 'Min',
-    position: 'RB',
-    portrait: 'http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10452.png&w=35&h=48&scale=crop&background=0xcccccc&transparent=false'
-  },
-  {
-    id: 4,
-    name: 'Calvin Johnson',
-    team: 'Det',
-    position: 'WR',
-    portrait: 'http://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/10447.png&w=35&h=48&scale=crop&background=0xcccccc&transparent=false'
-  }
-]
