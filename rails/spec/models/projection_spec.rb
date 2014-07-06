@@ -11,6 +11,7 @@ describe Projection do
     expect(Player.all.length).to eq(40)
     expect(Projection.all.length).to eq(total_projections + 40)
     expect(Projection.all.first.player.name).to eq('Adrian Peterson')
-    expect(Projection.all.first.player.passing_completions).to eq(0)
+    expect(Projection.all.first.player.projections.first.passing_completions).to eq(0)
+    expect(Projection.all.first.player.projections.first.rushing_yards).to eq(1365)
   end
 end
