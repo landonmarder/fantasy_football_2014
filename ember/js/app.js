@@ -26,7 +26,24 @@ App.Player = DS.Model.extend({
   receivingYards: DS.attr('number'),
   receivingReceptions: DS.attr('number'),
   receivingTds: DS.attr('number'),
-  fumbles: DS.attr('number')
+  fumbles: DS.attr('number'),
+  totalPoints: function() {
+    var completions = this.get('passingCompletions');
+    var interceptions = this.get('interceptions')
+    var passingYards = this.get('passingYards');
+    var passingTds = this.get('passingTds');
+    var rushingYards = this.get('rushingYards');
+    var receivingYards = this.get('receivingYards')
+    var touchdowns = this.get('rushingTds') + this.get('receivingTds');
+    var receptions = this.get('receivingReceptions');
+    var fumbles = this.get('fumbles');
+
+    var total = (completions * 0.25) + (passingYards / 25) + (interceptions * -2) +
+                (rushingYards / 10) + (receivingYards / 10) + (touchdowns * 6) +
+                (receptions * 0.5) + (passingTds * 4) + (fumbles * -2)
+
+    return (Math.round(total*100)/100);
+  }.property()
 });
 
 App.PlayersRoute = Ember.Route.extend({
@@ -36,8 +53,11 @@ App.PlayersRoute = Ember.Route.extend({
 });
 
 App.PlayersController = Ember.ArrayController.extend({
+  sortAscending: false,
+  sortProperties: ['totalPoints'],
   itemController: 'player'
 });
 
 App.PlayerController = Ember.ObjectController.extend({
+
 });
