@@ -1,5 +1,5 @@
 class PlayerSerializer < ActiveModel::Serializer
-  embed :ids, include: true
-  attributes :id, :name, :team, :position
-  has_many :projections
+  attributes :id, :name, :team, :position, :passing_completions,
+  :passing_tds, :passing_yards, :interceptions, :rushing_yards,
+  :rushing_tds, :receiving_yards, :receiving_receptions, :receiving_tds, :fumbles
 end

@@ -6,7 +6,7 @@ FactoryGirl.define do
     passing_completions 21
     passing_attempts 25
     passing_yards 200
-    passing_td 25
+    passing_tds 25
     interceptions 2
     rushing_attempts 20
     rushing_yards 50
@@ -15,5 +15,6 @@ FactoryGirl.define do
     receiving_receptions 2
     receiving_tds 0
     fumbles 0
+    source 'ESPN'
   end
 end

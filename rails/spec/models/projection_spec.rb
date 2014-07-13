@@ -42,10 +42,6 @@ describe Projection do
     expect(ap.projections.first.rushing_yards).to eq(1436)
     expect(ap.projections.first.receiving_receptions).to eq(50.6)
 
-    dm = Player.find_by(name: 'Doug Martin')
-    expect(dm.team).to eq('TB')
-    expect(dm.position).to eq('RB')
-
     peyton = Player.find_by(name: 'Peyton Manning')
     expect(peyton.team).to eq('Den')
     expect(peyton.position).to eq('QB')

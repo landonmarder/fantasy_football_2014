@@ -16,17 +16,11 @@ App.Player = DS.Model.extend({
   name: DS.attr('string'),
   team: DS.attr('string'),
   position: DS.attr('string'),
-  projections: DS.hasMany('projection'),
-});
-
-App.Projection = DS.Model.extend({
-  player: DS.belongsTo('player'),
   passingCompletions: DS.attr('number'),
   passingAttempts: DS.attr('number'),
   passingYards: DS.attr('number'),
   passingTds: DS.attr('number'),
   interceptions: DS.attr('number'),
-  rushingAttempts: DS.attr('number'),
   rushingYards: DS.attr('number'),
   rushingTds: DS.attr('number'),
   receivingYards: DS.attr('number'),
@@ -46,7 +40,4 @@ App.PlayersController = Ember.ArrayController.extend({
 });
 
 App.PlayerController = Ember.ObjectController.extend({
-  rushingYards: function(){
-    debugger;
-  }.property('projections.@each')
 });
