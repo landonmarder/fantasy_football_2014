@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <title>Fantasy Football Prep</title>
   <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -42,7 +42,6 @@
     <table class="table">
           <thead>
             <tr>
-              <th>#</th>
               <th>Name, Team</th>
               <th>Position</th>
               <th>Passing Completions</th>
@@ -61,7 +60,6 @@
           <tbody>
           {{#each}}
             <tr>
-              <td>{{id}}</td>
               <td>{{link-to name 'players.show' this}}, {{team}}</td>
               <td>{{position}}</td>
               <td>{{passingCompletions}}</td>
@@ -79,6 +77,14 @@
           {{/each}}
           </tbody>
         </table>
+        <div class='btn-group'>
+          {{#if hasPreviousPage}}
+            <button {{action 'previousPage'}} class='btn-primary'>Previous</button>
+          {{/if}}
+          {{#if hasNextPage}}
+            <button {{action 'nextPage' enabled='hasNextPage'}} class='btn-primary'>Next</button>
+          {{/if}}
+        </div>
   </script>
 
   <script type="text/x-handlebars" data-template-name='players/show'>

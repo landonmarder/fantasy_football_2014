@@ -54,8 +54,46 @@ App.PlayersRoute = Ember.Route.extend({
 
 App.PlayersController = Ember.ArrayController.extend({
   sortAscending: false,
+
   sortProperties: ['totalPoints'],
-  itemController: 'player'
+
+  itemController: 'player',
+
+  offset:0,
+
+  limit: 25,
+
+  arrangedContent: function() {
+    var offset = this.get('offset');
+    var limit = this.get('limit');
+
+    return this.get('model').slice(offset, offset + limit);
+  }.property('model', 'offset', 'limit'),
+
+  hasPreviousPage: function() {
+    return this.get('offset') !== 0;
+  }.property('offset'),
+
+  hasNextPage: function() {
+    var offset = this.get('offset');
+    var limit = this.get('limit');
+    var length = this.get('model.length');
+
+    return (offset + limit) < length;
+
+  }.property('offset', 'limit', 'model.length'),
+
+  actions: {
+    previousPage: function() {
+      var limit = this.get('limit');
+      this.decrementProperty('offset', limit)
+    },
+
+    nextPage: function() {
+      var limit = this.get('limit');
+      this.incrementProperty('offset', limit)
+    }
+  }
 });
 
 App.PlayerController = Ember.ObjectController.extend({
