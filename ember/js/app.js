@@ -16,7 +16,7 @@ App.Player = DS.Model.extend({
   name: DS.attr('string'),
   team: DS.attr('string'),
   position: DS.attr('string'),
-  projections: DS.hasMany('projection')
+  projections: DS.hasMany('projection'),
 });
 
 App.Projection = DS.Model.extend({
@@ -37,6 +37,16 @@ App.Projection = DS.Model.extend({
 
 App.PlayersRoute = Ember.Route.extend({
   model: function() {
-    return this.store.findAll('player')
+    return this.store.findAll('player');
   }
+});
+
+App.PlayersController = Ember.ArrayController.extend({
+  itemController: 'player'
+});
+
+App.PlayerController = Ember.ObjectController.extend({
+  rushingYards: function(){
+    debugger;
+  }.property('projections.@each')
 });
