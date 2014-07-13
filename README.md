@@ -1,11 +1,10 @@
 Fantasy Football Projections Aggregator
 ---
 
-Scrapes top fantasy football projection sites (so far ESPN and Yahoo) and aggregates
-the data. Uses Rails as a back-end API and Ember for the front-end.
+Aggregates fantasy football projections from ESPN, Yahoo, and CBSSports to prepare for your fantasy football drafts.
 
 To Do
 ----
-- Scrape more sites
 - Front end improvements
 - Push live
+- Big data analysis
