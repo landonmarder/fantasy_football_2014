@@ -49,4 +49,37 @@ describe Projection do
 
     expect(Projection.all.length).to eq(total_projections + 25)
   end
+
+  it 'should scrape CBSSports for new projections: qbs' do
+    total_projections = Projection.all.length
+    Projection.scrape_CBS('http://fantasynews.cbssports.com/fantasyfootball/stats/weeklyprojections/QB/season', 20)
+    expect(Player.all.length).to eq (total_projections + 20)
+
+    peyton = Player.find_by(name: 'Peyton Manning')
+    expect(peyton.team).to eq('DEN')
+    expect(peyton.position).to eq('QB')
+    expect(peyton.projections.first.passing_yards).to eq(5325.5)
+  end
+
+  it 'should scrape CBSSports for new projections:rbs' do
+    total_projections = Projection.all.length
+    Projection.scrape_CBS('http://fantasynews.cbssports.com/fantasyfootball/stats/weeklyprojections/RB/season/', 40)
+    expect(Player.all.length).to eq (total_projections + 40)
+
+    ap = Player.find_by(name: 'Adrian Peterson')
+    expect(ap.team).to eq('MIN')
+    expect(ap.position).to eq('RB')
+    expect(ap.projections.first.rushing_yards).to eq(1367.5)
+  end
+
+  it 'should scrape CBSSPorts for new projections:wr/te' do
+    total_projections = Projection.all.length
+    Projection.scrape_CBS('http://fantasynews.cbssports.com/fantasyfootball/stats/weeklyprojections/WR/season/', 49)
+    expect(Player.all.length).to eq (total_projections + 49)
+
+    megatron = Player.find_by(name: 'Calvin Johnson')
+    expect(megatron.team).to eq('DET')
+    expect(megatron.position).to eq('WR')
+    expect(megatron.projections.first.receiving_yards).to eq(1584.0)
+  end
 end

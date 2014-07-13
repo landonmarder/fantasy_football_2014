@@ -66,6 +66,56 @@ class Projection < ActiveRecord::Base
     end
   end
 
+  def self.scrape_CBS(url, num)
+    position = url.split('/')[-2]
+    doc = Nokogiri::HTML(open(url))
+    doc.css('.data tr')[3...num+3].each do |row|
+      name = row.children[0].text.split(',')[0]
+      team = row.children[0].text.split(',')[1].squish
+
+      player = Player.find_or_initialize_by(name: name)
+      player.position = position
+      player.team = team
+
+      if player.save
+        if player.position == 'QB'
+          projection = Projection.new(
+            player: player,
+            source: 'CBS',
+            passing_attempts: row.children[1].text.to_f,
+            passing_completions: row.children[2].text.to_f,
+            passing_yards: row.children[3].text.to_f,
+            passing_tds: row.children[4].text.to_f,
+            interceptions: row.children[5].text.to_f,
+            rushing_yards: row.children[9].text.to_f,
+            rushing_tds: row.children[11].text.to_f
+          )
+        elsif player.position == 'RB'
+          projection = Projection.new(
+            player: player,
+            source: 'CBS',
+            rushing_yards: row.children[2].text.to_f,
+            rushing_tds: row.children[4].text.to_f,
+            receiving_receptions: row.children[5].text.to_f,
+            receiving_yards: row.children[6].text.to_f,
+            receiving_tds: row.children[8].text.to_f,
+            fumbles: row.children[9].text.to_f
+          )
+        else
+          projection = Projection.new(
+            player: player,
+            source: 'CBS',
+            receiving_receptions: row.children[1].text.to_f,
+            receiving_yards: row.children[2].text.to_f,
+            receiving_tds: row.children[4].text.to_f,
+            fumbles: row.children[5].text.to_f
+          )
+        end
+        projection.save
+      end
+    end
+  end
+
   private
   def self.position_espn(string)
     info = Projection.sanitize_position_team_espn(string)
