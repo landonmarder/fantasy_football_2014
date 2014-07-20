@@ -68,7 +68,7 @@ App.Player = DS.Model.extend({
                 (fumbles * fumblesValue) + (receivingTds * receivingTdsValue);
 
     return (Math.round(total*100)/100);
-  }.property()
+  }.property('fumblesValue', 'passingTdsValue')
 });
 
 App.PlayersRoute = Ember.Route.extend({
