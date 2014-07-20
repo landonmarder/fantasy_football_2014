@@ -82,7 +82,7 @@ App.PlayersController = Ember.ArrayController.extend({
 
   sortProperties: ['totalPoints'],
 
-  // itemController: 'player',
+  itemController: 'player'
 
   // offset:0,
 
