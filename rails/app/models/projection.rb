@@ -74,8 +74,13 @@ class Projection < ActiveRecord::Base
       team = row.children[0].text.split(',')[1].squish
 
       player = Player.find_or_initialize_by(name: name)
-      player.position = position
       player.team = team
+
+      if position == 'season'
+        player.position = 'WR'
+      else
+        player.position = position
+      end
 
       if player.save
         if player.position == 'QB'
