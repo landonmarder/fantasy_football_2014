@@ -41,39 +41,8 @@ App.Player = DS.Model.extend({
   receivingReceptions: DS.attr('number'),
   receivingTds: DS.attr('number'),
   fumbles: DS.attr('number'),
-  totalPoints: function() {
-    debugger;
-    var fumblesValue = points.get('fumbles');
-    var passingCompletionsValue = points.get('passingCompletions');
-    var passingYardsValue = points.get('passingYards');
-    var interceptionsValue = points.get('interceptions');
-    var rushingYardsValue = points.get('rushingYards');
-    var receivingYardsValue = points.get('receivingYards');
-    var rushingTdsValue = points.get('rushingTds');
-    var receivingTdsValue = points.get('receivingTds');
-    var receptionsValue = points.get('receptions');
-    var passingTdsValue = points.get('passingTds');
-
-    var completions = this.get('passingCompletions');
-    var interceptions = this.get('interceptions')
-    var passingYards = this.get('passingYards');
-    var passingTds = this.get('passingTds');
-    var rushingYards = this.get('rushingYards');
-    var receivingYards = this.get('receivingYards')
-    var rushingTds = this.get('rushingTds');
-    var receivingTds = this.get('receivingTds');
-    var receptions = this.get('receivingReceptions');
-    var fumbles = this.get('fumbles');
-
-    var total = (completions * passingCompletionsValue) + (passingYards * passingYardsValue) +
-                (interceptions * interceptionsValue) + (rushingYards * rushingYardsValue) +
-                (receivingYards * receivingYardsValue) + (rushingTds * rushingTdsValue) +
-                (receptions * receptionsValue) + (passingTds * passingTdsValue) +
-                (fumbles * fumblesValue) + (receivingTds * receivingTdsValue);
-
-    return (Math.round(total*100)/100);
-  }.property('passingCompletions', 'interceptions', 'passingYards', 'passingTds', 'rushingYards', 'receivingYards', 'rushingTds', 'receivingTds', 'receivingReceptions', 'fumbles')
-
+  points: points,
+  fumblesValue: Ember.computed.alias('points.fumbles')
 });
 
 App.PlayersRoute = Ember.Route.extend({
@@ -91,7 +60,7 @@ App.PlayersController = Ember.ArrayController.extend({
 
   offset:0,
 
-  limit: 1,
+  limit: 25,
 
   arrangedContent: function() {
     var offset = this.get('offset');
@@ -127,5 +96,38 @@ App.PlayersController = Ember.ArrayController.extend({
 });
 
 App.PlayerController = Ember.ObjectController.extend({
+  totalPoints: function() {
+    var fumblesValue = this.get('points.fumbles');
+    var passingCompletionsValue = this.get('points.passingCompletions');
+    var passingYardsValue = this.get('points.passingYards');
+    var interceptionsValue = this.get('points.interceptions');
+    var rushingYardsValue = this.get('points.rushingYards');
+    var receivingYardsValue = this.get('points.receivingYards');
+    var rushingTdsValue = this.get('points.rushingTds');
+    var receivingTdsValue = this.get('points.receivingTds');
+    var receptionsValue = this.get('points.receptions');
+    var passingTdsValue = this.get('points.passingTds');
 
+    var completions = this.get('passingCompletions');
+    var interceptions = this.get('interceptions')
+    var passingYards = this.get('passingYards');
+    var passingTds = this.get('passingTds');
+    var rushingYards = this.get('rushingYards');
+    var receivingYards = this.get('receivingYards')
+    var rushingTds = this.get('rushingTds');
+    var receivingTds = this.get('receivingTds');
+    var receptions = this.get('receivingReceptions');
+    var fumbles = this.get('fumbles');
+
+    var total = (completions * passingCompletionsValue) + (passingYards * passingYardsValue) +
+                (interceptions * interceptionsValue) + (rushingYards * rushingYardsValue) +
+                (receivingYards * receivingYardsValue) + (rushingTds * rushingTdsValue) +
+                (receptions * receptionsValue) + (passingTds * passingTdsValue) +
+                (fumbles * fumblesValue) + (receivingTds * receivingTdsValue);
+
+    return (Math.round(total*100)/100);
+  }.property('points.fumbles','points.passingCompletions', 'points.passingYards', 'points.interceptions',
+    'points.rushingYards', 'points.receivingYards', 'points.rushingTds', 'points.receivingTds', 'points.receptions',
+    'points.passingTds','passingCompletions', 'interceptions', 'passingYards', 'passingTds',
+    'rushingYards', 'receivingYards', 'rushingTds', 'receivingTds', 'receivingReceptions', 'fumbles')
 });

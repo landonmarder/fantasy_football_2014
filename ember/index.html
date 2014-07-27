@@ -29,7 +29,6 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
-
     {{outlet}}
   </script>
 
@@ -38,8 +37,8 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="players">
-    <h3>Believe a projection is incorrect?</h3>
-    <p>Click on the player to update his projections.</p>
+    <h3>Want to change the scoring or believe a projection is incorrect?</h3>
+    <p>Click on the player to edit projections!</p>
     {{outlet}}
     <table class="table">
           <thead>
@@ -90,6 +89,16 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name='players/show'>
+    Passing Completions Points: {{input type='text' value=points.passingCompletions}}
+    Passing Yards: Points {{input type='text' value=points.passingYards}}
+    Passing TDs Points: {{input type='text' value=points.passingTds}}
+    Interceptions Points: {{input type='text' value=points.interceptions}}
+    Rushing Yards Points: {{input type='text' value=points.rushingYards}}
+    Rushing TDs Points: {{input type='text' value=points.rushingTds}}
+    Receiving Yards Points: {{input type='text' value=points.receivingYards}}
+    Receptions Points: {{input type='text' value=points.receptions}}
+    Receiving TDs Points: {{input type='text' value=points.receivingTds}}
+    Fumbles Points: {{input type='text' value=points.fumbles}}
     <h4>{{name}}</h4>
     Passing Completions: {{input type='text' value=passingCompletions}}
     Passing Yards: {{input type='text' value=passingYards}}
