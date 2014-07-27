@@ -68,7 +68,7 @@ App.Player = DS.Model.extend({
                 (fumbles * fumblesValue) + (receivingTds * receivingTdsValue);
 
     return (Math.round(total*100)/100);
-  }.property('fumblesValue', 'passingTdsValue')
+  }.property('passingCompletions', 'interceptions', 'passingYards', 'passingTds', 'rushingYards', 'receivingYards', 'rushingTds', 'receivingTds', 'receivingReceptions', 'fumbles')
 });
 
 App.PlayersRoute = Ember.Route.extend({
