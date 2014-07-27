@@ -12,6 +12,20 @@ App.Router.map(function() {
   })
 });
 
+var points = Ember.Object.create({
+  passingCompletions: 0.25,
+  fumbles: -2,
+  passingYards: 0.04,
+  interceptions: -2,
+  rushingYards: 0.1,
+  receivingYards: 0.1,
+  rushingTds: 6,
+  receivingTds: 6,
+  passingTds: 4,
+  receptions: 0.5,
+  passingTds: 4
+});
+
 App.Player = DS.Model.extend({
   name: DS.attr('string'),
   team: DS.attr('string'),
@@ -27,28 +41,18 @@ App.Player = DS.Model.extend({
   receivingReceptions: DS.attr('number'),
   receivingTds: DS.attr('number'),
   fumbles: DS.attr('number'),
-  passingCompletionsValue: 0.25,
-  fumblesValue: -2,
-  passingYardsValue: 0.04,
-  interceptionsValue: -2,
-  rushingYardsValue: 0.1,
-  receivingYardsValue: 0.1,
-  rushingTdsValue: 6,
-  receivingTdsValue: 6,
-  passingTdsValue: 4,
-  receptionsValue: 0.5,
-  passingTdsValue: 4,
   totalPoints: function() {
-    var fumblesValue = this.get('fumblesValue');
-    var passingCompletionsValue = this.get('passingCompletionsValue');
-    var passingYardsValue = this.get('passingYardsValue');
-    var interceptionsValue = this.get('interceptionsValue');
-    var rushingYardsValue = this.get('rushingYardsValue');
-    var receivingYardsValue = this.get('receivingYardsValue');
-    var rushingTdsValue = this.get('rushingTdsValue');
-    var receivingTdsValue = this.get('receivingTdsValue');
-    var receptionsValue = this.get('receptionsValue');
-    var passingTdsValue = this.get('passingTdsValue');
+    debugger;
+    var fumblesValue = points.get('fumbles');
+    var passingCompletionsValue = points.get('passingCompletions');
+    var passingYardsValue = points.get('passingYards');
+    var interceptionsValue = points.get('interceptions');
+    var rushingYardsValue = points.get('rushingYards');
+    var receivingYardsValue = points.get('receivingYards');
+    var rushingTdsValue = points.get('rushingTds');
+    var receivingTdsValue = points.get('receivingTds');
+    var receptionsValue = points.get('receptions');
+    var passingTdsValue = points.get('passingTds');
 
     var completions = this.get('passingCompletions');
     var interceptions = this.get('interceptions')
@@ -69,6 +73,7 @@ App.Player = DS.Model.extend({
 
     return (Math.round(total*100)/100);
   }.property('passingCompletions', 'interceptions', 'passingYards', 'passingTds', 'rushingYards', 'receivingYards', 'rushingTds', 'receivingTds', 'receivingReceptions', 'fumbles')
+
 });
 
 App.PlayersRoute = Ember.Route.extend({
@@ -82,43 +87,43 @@ App.PlayersController = Ember.ArrayController.extend({
 
   sortProperties: ['totalPoints'],
 
-  itemController: 'player'
+  itemController: 'player',
 
-  // offset:0,
+  offset:0,
 
-  // limit: 25,
+  limit: 1,
 
-  // arrangedContent: function() {
-  //   var offset = this.get('offset');
-  //   var limit = this.get('limit');
+  arrangedContent: function() {
+    var offset = this.get('offset');
+    var limit = this.get('limit');
 
-  //   return this.get('model').slice(offset, offset + limit);
-  // }.property('model', 'offset', 'limit'),
+    return this.get('model').slice(offset, offset + limit);
+  }.property('model', 'offset', 'limit'),
 
-  // hasPreviousPage: function() {
-  //   return this.get('offset') !== 0;
-  // }.property('offset'),
+  hasPreviousPage: function() {
+    return this.get('offset') !== 0;
+  }.property('offset'),
 
-  // hasNextPage: function() {
-  //   var offset = this.get('offset');
-  //   var limit = this.get('limit');
-  //   var length = this.get('model.length');
+  hasNextPage: function() {
+    var offset = this.get('offset');
+    var limit = this.get('limit');
+    var length = this.get('model.length');
 
-  //   return (offset + limit) < length;
+    return (offset + limit) < length;
 
-  // }.property('offset', 'limit', 'model.length'),
+  }.property('offset', 'limit', 'model.length'),
 
-  // actions: {
-  //   previousPage: function() {
-  //     var limit = this.get('limit');
-  //     this.decrementProperty('offset', limit)
-  //   },
+  actions: {
+    previousPage: function() {
+      var limit = this.get('limit');
+      this.decrementProperty('offset', limit)
+    },
 
-  //   nextPage: function() {
-  //     var limit = this.get('limit');
-  //     this.incrementProperty('offset', limit)
-  //   }
-  // }
+    nextPage: function() {
+      var limit = this.get('limit');
+      this.incrementProperty('offset', limit)
+    }
+  }
 });
 
 App.PlayerController = Ember.ObjectController.extend({
