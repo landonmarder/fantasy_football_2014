@@ -75,8 +75,7 @@ App.Player = DS.Model.extend({
     return (Math.round(total*100)/100);
   }.property('points.fumbles','points.passingCompletions', 'points.passingYards', 'points.interceptions',
     'points.rushingYards', 'points.receivingYards', 'points.rushingTds', 'points.receivingTds', 'points.receptions',
-    'points.passingTds','passingCompletions', 'interceptions', 'passingYards', 'passingTds',
-    'rushingYards', 'receivingYards', 'rushingTds', 'receivingTds', 'receivingReceptions', 'fumbles')
+    'points.passingTds')
 
 });
 
