@@ -1,6 +1,6 @@
 class Api::PlayersController < ApplicationController
   def index
-    render json: Player.all
+    render json: Player.order_by_points
   end
 
   def show

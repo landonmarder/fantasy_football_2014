@@ -12,6 +12,8 @@ describe Player do
 
   it { should have_many(:projections) }
 
+  it { should have_many(:costs) }
+
   it 'should calculate the median of rushing yards, odd numbers of projections' do
     ap = FactoryGirl.create(:player)
     FactoryGirl.create(:projection, player: ap, rushing_yards: 100)
