@@ -18,7 +18,8 @@ class Cost < ActiveRecord::Base
           player.team = row.children[1].children.text.split(',')[1].squish
           if player.save
             value = row.children[5].children.text.to_f
-            cost = Cost.new(player: player, value: value)
+            adp = row.children[3].children.text.to_f
+            cost = Cost.new(player: player, value: value, adp: adp)
             cost.save
           end
         end

@@ -73,6 +73,11 @@ class Player < ActiveRecord::Base
     median(costs) * 1.2
   end
 
+  def adp
+    costs = self.costs.map{ |cost| cost.adp }
+    median(costs) * 1.2
+  end
+
   def projected_points
     (passing_completions * 0.25) + (passing_tds * 4) + (passing_yards * 0.04) + (interceptions * -2) +
     (rushing_yards * 0.1) + (rushing_tds * 6) + (receiving_receptions * 0.5) + (receiving_yards * 0.1) +
